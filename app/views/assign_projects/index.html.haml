@@ -1,0 +1,24 @@
+%p#notice= notice
+%h1 Listing Assign Projects
+
+= form_for :user do |f|
+  = f.hidden_field :status, value: ASSIGNED
+  = f.autocomplete_field :user_email, autocomplete_user_email_users_path
+  = f.submit "Assign"
+
+%table
+  %thead
+    %tr
+      %th Users
+      %th Projects
+      %th{:colspan => "3"}
+  %tbody
+    - @assign_projects.each do |assign_project|
+      %tr
+        %td= assign_project.user.email rescue nil
+        %td= assign_project.project.name
+        %td= link_to 'Show', [@project, assign_project]
+        %td= link_to 'Edit', edit_project_assign_project_path(@project, assign_project)
+        %td= link_to 'Destroy', [@project, assign_project], method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Assign project', [@project, AssignProject.new]
