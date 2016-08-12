@@ -17,7 +17,6 @@ class DashboardsController < ApplicationController
   		end
   	end
   	@todos = develop
-  	binding.pry
   	# current_user.projects.each do |proj|
   	# 	proj.assign_projects.where('status=?', ASSIGNED).each do ||
   	# end

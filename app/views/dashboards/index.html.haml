@@ -10,9 +10,11 @@
   %tbody
     - @todos.each do |key, value|
       %tr
-        %td= key
         %td
-          - value.each do |k, val|
+          %table 
+            %td= key
+        - value.each do |k, val|
+          %td
             %table
               %tr
                 %td= k
