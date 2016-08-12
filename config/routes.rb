@@ -7,10 +7,12 @@ Rails.application.routes.draw do
 
   devise_for :users 
   resources :projects do 
-    resources :assign_projects
+    resources :todos,  only: [:index, :create, :update, :edit, :destroy]
+    resources :assign_projects, only: [:index, :create, :destroy]
   end
   resources :users do
     get :autocomplete_user_email, :on => :collection
+    get 'autocomplete_user_project/:project_id' => "users#autocomplete_user_project", :on => :collection, as: :autocomplete_user_project
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

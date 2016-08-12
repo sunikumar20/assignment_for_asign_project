@@ -22,7 +22,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem "rolify"
 gem 'haml'
+gem 'aasm'
 gem "erb2haml", :group => :development
 gem 'rails4-autocomplete'
 gem 'jquery-ui-rails'

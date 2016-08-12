@@ -1,2 +1,21 @@
 =link_to 'Project List', projects_path
 =link_to 'New Project', new_project_path
+
+
+%table
+  %thead
+    %tr
+      %th Name
+      
+  %tbody
+    - @todos.each do |key, value|
+      %tr
+        %td= key
+        %td
+          - value.each do |k, val|
+            %table
+              %tr
+                %td= k
+              - val.each do |v|
+                %tr
+                  %td= v.description
