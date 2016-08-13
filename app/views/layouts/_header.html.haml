@@ -1,0 +1,33 @@
+
+
+%nav.navbar.navbar-inverse
+  .container-fluid
+    .navbar-header
+      %button.navbar-toggle{"data-target" => "#myNavbar", "data-toggle" => "collapse", :type => "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#"} Portfolio
+    #myNavbar.collapse.navbar-collapse
+      - if current_user
+        %ul.nav.navbar-nav
+          %li.active
+            = link_to "Home", root_path
+          %li
+            =link_to 'Projects', projects_path
+          %li
+            =link_to 'Create Project', new_project_path
+          - if  @project.present? and not @project.id.nil?
+            %li
+              = link_to "Todos", root_path
+            %li
+              = link_to "Assign Project", root_path
+        %ul.nav.navbar-nav.navbar-right
+          %li
+            %a.navbar-brand{:href => "#"}
+              = current_user.email rescue nil
+          %li
+            =link_to destroy_user_session_path, :method => :delete do 
+              %span.glyphicon.glyphicon-log-in
+              Sign out
+              

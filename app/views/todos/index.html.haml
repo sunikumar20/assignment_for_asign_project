@@ -1,26 +1,30 @@
-%p#notice= notice
-%h6 Listing Todos
 - if current_user.has_role? :admin
   = render partial: "form"
-%table
-  %thead
-    %tr
-      %th Description
-      %th assigned to user
-      %th Status
-      %th{:colspan => "3"}
-  %tbody
-    - @todos.each do |todo|
-      %tr
-        %td= todo.description
-        %td= todo.assign_project.user.email
-        %td= todo.status
-        %td
-          - todos_status = todo.aasm.events.map{|eve| [eve.name.to_s.titlecase, eve.name]}
-          = form_for [@project, todo], remote: true, html: {method: :put, class: "form_proj_act_#{todo.id}"} do |f|
-            = hidden_field_tag :authenticity_token, form_authenticity_token
-            = select(:todo, :status, ["Change Status"]+todos_status,{prompt: "Change Status", selected: todo.status}, onchange: "$('.form_proj_act_'+#{todo.id}).submit();")
-        / %td= link_to 'Show', [@project, todo]
-        / %td= link_to 'Edit', edit_project_todo_path(@project, todo)
-        %td= link_to 'Destroy', [@project, todo], method: :delete, data: { confirm: 'Are you sure?' } if current_user.has_role? :admin
-%br/
+
+.col-md-12
+  .container
+    %h2 Todos of #{@project.name}
+    %p 
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Description
+          %th assigned to user
+          %th Status
+          %th
+          %th Action
+      %tbody
+        - @todos.each do |todo|
+          %tr
+            %td= todo.description
+            %td= todo.assign_project.user.email
+            %td= todo.status
+            %td
+              - todos_status = todo.aasm.events.map{|eve| [eve.name.to_s.titlecase, eve.name]}
+              = form_for [@project, todo], remote: true, html: {method: :put, class: "form_proj_act_#{todo.id}"} do |f|
+                = hidden_field_tag :authenticity_token, form_authenticity_token
+                = select(:todo, :status, ["Change Status"]+todos_status,{prompt: "Change Status", selected: todo.status}, onchange: "$('.form_proj_act_'+#{todo.id}).submit();")
+            / %td= link_to 'Show', [@project, todo]
+            / %td= link_to 'Edit', edit_project_todo_path(@project, todo)
+            %td= link_to 'Destroy', [@project, todo], method: :delete, data: { confirm: 'Are you sure?' } if current_user.has_role? :admin
+        

@@ -5,12 +5,9 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+  / .hold-transition.skin-blue.sidebar-mini
   %body
-    =link_to 'Project List', projects_path
-    - if  @project.present? and not @project.id.nil?
-      = link_to 'Todo List', [@project, Todo] 
-      = link_to 'Assign Project', [@project, AssignProject] if current_user.has_role? :admin
-    - if current_user
-      = current_user.email
-      =link_to 'Sign out', destroy_user_session_path, :method => :delete
+    = render partial: 'layouts/header'
+    %p#notice= notice
+
     = yield

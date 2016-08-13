@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem "rolify"
 gem 'haml'
 gem 'aasm'
+gem 'bootstrap', '~> 4.0.0.alpha3.1'
 gem "erb2haml", :group => :development
 gem 'rails4-autocomplete'
 gem 'jquery-ui-rails'

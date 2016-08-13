@@ -1,21 +1,20 @@
-%p#notice= notice
-%h6 Listing Projects
-%table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th{:colspan => "4"}
-  %tbody
-    - @projects.each do |project|
+
+.container
+  %h2 List Of Projects
+  %p 
+  %table.table.table-hover
+    %thead
       %tr
-        %td= project.name
-        %td= project.description
-        %td= link_to 'Todo', [project, Todo]
-        - if current_user.has_role? :admin
-          %td= link_to 'Assign Project', [project, AssignProject]
-          %td= link_to 'Show', project
-          %td= link_to 'Edit', edit_project_path(project)
-          %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Project', new_project_path
+        %th Name
+        %th Description
+        %th{:colspan => "4"} Action
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= project.name
+          %td= project.description
+          %td= link_to 'Todo', [project, Todo]
+          - if current_user.has_role? :admin
+            %td= link_to 'Assign Project', [project, AssignProject]
+            %td= link_to 'Edit', edit_project_path(project)
+            %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }

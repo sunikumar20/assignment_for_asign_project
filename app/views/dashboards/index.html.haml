@@ -1,23 +1,55 @@
-=link_to 'Project List', projects_path
-=link_to 'New Project', new_project_path
+.col-md-12
+  .col-md-4
+    %h1 Dashboard
+  .col-md-4
+  .col-md-4
+
+.col-md-12
+  .container-fluid.bg-3.text-center
+    - @projects.each do |proj, value|
+      - project = Project.find(proj.split('_')[1])
+      %h3= project.name
+      %br/
+      .row
+        .col-sm-3.header_color
+          %p Status
+        .col-sm-9
+          - value["status"].each do |user_name|
+            - if project.assign_projects.where(status: CREATED).first.user.email != user_name
+              .col-sm-3.header_color
+                .col-sm-12
+                  %p= user_name
+                
+        - data = value.except("status")
+        - data.each do |key, val|
+          .col-sm-3
+            .col-sm-12
+              %p= key
+          .col-sm-9
+            - value["status"].each do |user_name|
+              - if project.assign_projects.where(status: CREATED).first.user.email != user_name
+                - if not val[user_name].present?
+                  .col-sm-3
+                    .col-sm-12
+                      %p
+                - else
+                  .col-sm-3
+                    - val[user_name].each do |todo|
+                      .row
+                        .col-sm-12
+                          %p= todo.description
+
+                
 
 
-%table
-  %thead
-    %tr
-      %th Name
-      
-  %tbody
-    - @todos.each do |key, value|
-      %tr
-        %td
-          %table 
-            %td= key
-        - value.each do |k, val|
-          %td
-            %table
-              %tr
-                %td= k
-              - val.each do |v|
-                %tr
-                  %td= v.description
+
+
+
+
+
+
+
+%br/
+
+:css
+  .header_color{background-color:#C0C0C0 !important; font-color:white !important;}
