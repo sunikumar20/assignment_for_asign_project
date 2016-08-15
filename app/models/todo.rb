@@ -42,4 +42,8 @@ class Todo < ActiveRecord::Base
 		user = User.find_by_email(self.user_email) if self.user_email
 		self.assign_project_id = user.assign_projects.find_by_project_id(self.project_id).id rescue nil if user
 	end
+
+	def self.get_todos(status, project)
+
+	end
 end

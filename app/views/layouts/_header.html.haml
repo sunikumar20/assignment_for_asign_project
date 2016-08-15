@@ -19,9 +19,9 @@
             =link_to 'Create Project', new_project_path
           - if  @project.present? and not @project.id.nil?
             %li
-              = link_to "Todos", root_path
+              = link_to "Todos", [@project, Todo]
             %li
-              = link_to "Assign Project", root_path
+              = link_to "Assign Project", [@project, AssignProject]
         %ul.nav.navbar-nav.navbar-right
           %li
             %a.navbar-brand{:href => "#"}
