@@ -31,7 +31,13 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  # <<: *default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: root
+  password: password
+  socket: /var/run/mysqld/mysqld.sock
   database: promobi_assignment_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -54,7 +60,7 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  adapter: postgresql
+  adapter: pg
   database: promobiassignment_production
   pool: 5
   timeout: 5000
