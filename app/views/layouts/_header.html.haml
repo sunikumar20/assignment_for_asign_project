@@ -10,16 +10,16 @@
     #myNavbar.collapse.navbar-collapse
       - if current_user
         %ul.nav.navbar-nav
-          %li.active
+          %li{class: "#{params[:controller] == 'dashboards' ? 'active' : '' }" }
             = link_to "Home", root_path
-          %li
+          %li{class: "#{params[:controller] == 'projects' and params[:action] == "index" ? 'active' : '' }" }
             =link_to 'Projects', projects_path
-          %li
+          %li{class: "#{params[:controller] == 'projects' and params[:action] == "new" ? 'active' : '' }" }
             =link_to 'Create Project', new_project_path
           - if  @project.present? and not @project.id.nil?
-            %li
+            %li{class: "#{params[:controller] == 'todos' ? 'active' : '' }" }
               = link_to "Todos", [@project, Todo]
-            %li
+            %li{class: "#{params[:controller] == 'assign_projects' ? 'active' : '' }" }
               = link_to "Assign Project", [@project, AssignProject]
         %ul.nav.navbar-nav.navbar-right
           %li
