@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
 
   def update
     return render :edit if not @project.update(project_params)
-    redirect_to @project, notice: 'Project was successfully updated.'
+    redirect_to projects_path, notice: 'Project was successfully updated.'
   end
 
   def destroy
