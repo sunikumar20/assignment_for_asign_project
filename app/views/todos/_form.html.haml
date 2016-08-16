@@ -1,0 +1,19 @@
+.col-md-12
+  .col-md-4
+  .col-md-4
+    %h1 Create Todos
+.col-md-12
+  .col-md-4
+  .col-md-4
+    = form_for([@project, @todo]) do |f|
+      = f.hidden_field :project_id, value: @project.id
+      .form-group
+        %label{:for => "usr"} User Name:
+        = f.autocomplete_field :user_email, autocomplete_user_project_users_path(project_id: @project.id), :update_element => {id: '#some_element'}, class: "form-control"
+      .form-group
+        %label{:for => "pwd"} Task:
+        = f.text_area :description, class: "form-control"
+      .form-group
+        = f.submit "Submit", class: "btn btn-default"
+  .col-md-4
+%br/

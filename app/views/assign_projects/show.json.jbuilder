@@ -1,0 +1,1 @@
+json.partial! "assign_projects/assign_project", assign_project: @assign_project

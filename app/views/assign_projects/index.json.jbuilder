@@ -1,0 +1,1 @@
+json.array! @assign_projects, partial: 'assign_projects/assign_project', as: :assign_project

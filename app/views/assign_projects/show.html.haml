@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Users:
+  = @assign_project.users
+%p
+  %strong Projects:
+  = @assign_project.projects
+= link_to 'Edit', edit_assign_project_path(@assign_project)
+|
+= link_to 'Back', assign_projects_path

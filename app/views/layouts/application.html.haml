@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title Assignment
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    =  javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  / .hold-transition.skin-blue.sidebar-mini
+  %body
+    = render partial: 'layouts/header'
+    %p#notice= notice
+
+    = yield

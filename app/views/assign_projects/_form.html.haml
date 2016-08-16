@@ -1,0 +1,19 @@
+= form_for(@assign_project) do |f|
+  - if @assign_project.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@assign_project.errors.count, "error")
+        prohibited this assign_project from being saved:
+      %ul
+        - @assign_project.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :users
+    %br/
+    = f.text_field :users
+  .field
+    = f.label :projects
+    %br/
+    = f.text_field :projects
+  .actions
+    = f.submit
