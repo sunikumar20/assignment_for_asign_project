@@ -18,8 +18,7 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    return render :new unless @todo.save
-    redirect_to [@project, Todo], notice: 'Todo was successfully created.'
+    redirect_to [@project, Todo], notice: 'Todo was successfully created.' if @todo.save
        
   end
 

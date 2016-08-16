@@ -3,7 +3,7 @@ class Todo < ActiveRecord::Base
 	serialize :description
 	attr_accessor :user_email, :project_id
 
-	validates :assign_project_id, :description, :status, presence: true
+	validates :assign_project_id, :description, :status, :user_email, presence: true
 	belongs_to :assign_project
 	belongs_to :project
 	belongs_to :user

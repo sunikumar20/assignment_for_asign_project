@@ -5,6 +5,7 @@ class AssignProjectsController < ApplicationController
 
   def index
     @assign_projects = @project.assign_projects.where(status: ASSIGNED)
+    @assign_project = AssignProject.new
   end
 
   def show
@@ -18,9 +19,16 @@ class AssignProjectsController < ApplicationController
   end
 
   def create
-    @assign_project = @project.assign_projects.new(status: ASSIGNED, user_id: @user.id)
-    return render :new if not @assign_project.save
-    redirect_to [@project, AssignProject], notice: 'Assign project was successfully created.'
+    user_id = @user.id rescue nil
+    @assign_project = @project.assign_projects.find_or_initialize_by(status: ASSIGNED, user_id: user_id)
+    if @assign_project.persisted?
+      respond_to do |format|
+        flash[:warning] = "This project is already assign to #{@user.email} "
+        format.js {render js: "window.location = '#{project_assign_projects_path(project_id: @project.id)}';"}
+      end
+    else
+      redirect_to [@project, AssignProject], notice: 'Assign project was successfully created.' if @assign_project.save
+    end
        
   end
 
@@ -48,7 +56,7 @@ class AssignProjectsController < ApplicationController
     end
 
     def set_user
-      @user = User.find_by_email(params[:user][:user_email])
+      @user = User.find_by_email(params[:assign_project][:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

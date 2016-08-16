@@ -1,38 +1,32 @@
-.col-md-4
-.col-md-4
-  %h1 Assign Project
-.col-md-12
-  .col-md-4
-  .col-md-4
-    = form_for :user do |f|
-      = f.hidden_field :status, value: ASSIGNED
-      .form-group
-        %label{:for => "usr"} User Name:
-        = f.autocomplete_field :user_email, autocomplete_user_email_users_path, class: "form-control"
-      
-      .form-group
-        = f.submit "Submit", class: "btn btn-default"
-  .col-md-4
-%br/
 
+.col-sm-12
+  .col-md-4
+  .col-md-4
+    %h1 Assign Project
+  .col-md-12
+    .col-md-4
+    .col-md-4{id: "assign_proj"}
+      = render partial: "form"
+    .col-md-4
+  %br/
 
-.container
-  %h2 List of #{@project.name}
-  %p 
-  %table.table.table-hover
-    %thead
-      %tr
-        %th User/projects
-        %th Assigned Users
-        %th Projects
-        %th Action
-    %tbody
-      - @assign_projects.each do |assign_project|
+  .container
+    %h2 List of #{@project.name}
+    %p 
+    %table.table.table-hover
+      %thead
         %tr
-          %td
-            = assign_project.get_project_admin.email
-            \/
-            = assign_project.project.name
-          %td= assign_project.user.email rescue nil
-          %td= link_to 'Destroy', [@project, assign_project], method: :delete, data: { confirm: 'Are you sure?' }
-          %td= link_to 'Todo', [@project, Todo]
+          %th User/projects
+          %th Assigned Users
+          %th Projects
+          %th Action
+      %tbody
+        - @assign_projects.each do |assign_project|
+          %tr
+            %td
+              = assign_project.get_project_admin.email
+              \/
+              = assign_project.project.name
+            %td= assign_project.user.email rescue nil
+            %td= link_to 'Destroy', [@project, assign_project], method: :delete, data: { confirm: 'Are you sure?' }
+            %td= link_to 'Todo', [@project, Todo]

@@ -1,14 +1,13 @@
 
-
 .col-md-12
   .col-md-4
   .col-md-4
     = form_for(@project) do |f|
       .form-group
-        %label{:for => "usr"} User Name:
+        %label{:for => "usr"} Project Name:
         = f.text_field :name, class: "form-control"
       .form-group
-        %label{:for => "pwd"} Task:
+        %label{:for => "pwd"} Description:
         = f.text_area :description, class: "form-control"
       .form-group
         = f.submit "Submit", class: "btn btn-default"

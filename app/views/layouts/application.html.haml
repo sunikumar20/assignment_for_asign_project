@@ -8,6 +8,14 @@
   / .hold-transition.skin-blue.sidebar-mini
   %body
     = render partial: 'layouts/header'
-    %p#notice= notice
+    .col-md-12
+      - if notice.present?
+        .alert.alert-success
+          %strong Success :
+          = notice
+      - if warning.present?
+        .alert.alert-success
+          %strong Warning :
+          = warning
 
     = yield

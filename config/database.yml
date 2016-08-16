@@ -23,7 +23,7 @@ development:
   encoding: utf8
   pool: 5
   username: root
-  password: password
+  password: root
   socket: /var/run/mysqld/mysqld.sock
   database: promobi_assignment_development
 
