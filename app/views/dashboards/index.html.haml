@@ -11,7 +11,7 @@
       - @projects.each do |proj, value|
         - project = Project.find(proj.split('_')[1])
         .row.proj_header
-          = link_to project do 
+          = link_to "#" do 
             %h5= project.name
         %br/
         - c = 0
