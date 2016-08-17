@@ -1,0 +1,28 @@
+
+.abc{id: "piechart_"+@project.id.to_s,:style => "width: 900px; height: 500px;"}              
+- proj_hash = @project.todos.pluck(:status).group_by{|a| a}
+
+:javascript
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    new_status = "#{proj_hash["new"].present? ? proj_hash["new"].count : 0}"
+    in_progress_status = "#{proj_hash["in_progress"].present? ? proj_hash["in_progress"].count : 0}"
+    done_status = "#{proj_hash["done"].present? ? proj_hash["done"].count : 0}"
+
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Hours per Day'],
+      ['New',  parseInt(new_status)],
+      ['In Progress ',     parseInt(in_progress_status)],
+      ['Done',      parseInt(done_status)],
+
+    ]);
+
+    var options = {
+    title: 'Project Todos Activities'
+  };
+  proj_id = "#{@project.id}"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart_'+proj_id));
+
+  chart.draw(data, options);
+  }
