@@ -6,7 +6,8 @@ class AssignProject < ActiveRecord::Base
 	has_many :todos
 	before_save :assign_status_to_newely_created_project
 
-	validates :user_id, presence: true, uniqueness: true
+	validates :user_id, uniqueness: true, if: Proc.new{ self.user_email.present? }
+	validates :user_id, presence: true
 
 	def assign_status_to_newely_created_project
 		self.status = CREATED if self.id.nil? and not self.status.present?
