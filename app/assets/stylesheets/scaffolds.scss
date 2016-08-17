@@ -26,7 +26,7 @@ a {
   }
 
   &:hover {
-    color: #fff;
+    color: red;
     background-color: #000;
   }
 }
@@ -76,7 +76,7 @@ div {
 .proj_header{
   background-color: #154360;
 }
-.proj_header a{
+.proj_header a, .proj_header h5{
   color: white;
 }
 .data_container{

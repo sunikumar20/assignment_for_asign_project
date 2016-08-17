@@ -23,7 +23,6 @@ class TodosController < ApplicationController
   end
 
   def update
-    binding.pry
     return render :edit if todo_params[:status] != "Change Status" and not @todo.update_column('status',todo_params[:status])
     redirect_to [@project, Todo], notice: 'Todo was successfully updated.' 
   end

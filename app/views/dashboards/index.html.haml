@@ -4,44 +4,6 @@
   .col-md-4
   .col-md-4
 
-/ .col-md-12
-/   .container-fluid.bg-3.text-center
-/     - @projects.each do |proj, value|
-/       - project = Project.find(proj.split('_')[1])
-/       %h3= project.name
-/       %br/
-/       .row
-/         .col-sm-3.header_color
-/           %p Status
-/         .col-sm-9
-/           - value["status"].each do |user_name|
-/             - if project.assign_projects.where(status: CREATED).first.user.email != user_name
-/               .col-sm-3.header_color
-/                 .col-sm-12
-/                   %p= user_name
-                
-/         - data = value.except("status")
-/         - data.each do |key, val|
-/           .col-sm-3
-/             .col-sm-12
-/               %p= key
-/           .col-sm-9
-/             - value["status"].each do |user_name|
-/               - if project.assign_projects.where(status: CREATED).first.user.email != user_name
-/                 - if not val[user_name].present?
-/                   .col-sm-3
-/                     .col-sm-12
-/                       %p
-/                 - else
-/                   .col-sm-3
-/                     - val[user_name].each do |todo|
-/                       .row
-/                         .col-sm-12
-/                           %p= todo.description
-
-                
-
-
 .col-md-12
   .container-fluid.bg-3.text-center
     - todos_status = Todo.aasm.events.map{|eve| eve.name.to_s} + ["new"]
@@ -84,38 +46,30 @@
                 
 
 .col-md-12
+  .container-fluid.bg-3.text-center
+    .row.proj_header
+      %h5 Project Activity
+    .row
+      .col-md-12
+        - projects = []
+        - @projects.each do |proj, value|
+          - projects << Project.find(proj.split('_')[1])
+        %br/
+        .col-md-4
+        .col-md-4
+          = select(:project, :id, ["Select Project"]+projects.collect{|p| [p.name, p.id]},{selected: (@project.id rescue nil)}, class: "form-control sel_proj")
+        .col-md-4
+      .col-md-12.pichart_proj
+        - if @project
+          = render partial: 'projects/pichart'
+        - else
+          .col-md-4
+          .col-md-4
+            No Activity Found
 
-  - @projects.each do |proj, value|
-    - project = Project.find(proj.split('_')[1])
-    .abc{id: "piechart_"+project.id.to_s,:style => "width: 900px; height: 500px;"}              
-    - proj_hash = project.todos.pluck(:status).group_by{|a| a}
+:javascript
+  $(document).on('change', '.sel_proj', function(){
+    val = $(this).val();
+    window.location = '/?project_id='+ val;
+  })
 
-    :javascript
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        new_status = "#{proj_hash["new"] ? proj_hash["new"].count : 0}"
-        in_progress_status = "#{proj_hash["in_progress"] ? proj_hash["in_progress"].count : 0}"
-        done_status = "#{proj_hash["done"] ? proj_hash["done"].count : 0}"
-
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['New',  parseInt(new_status)],
-          ['In Progress ',     parseInt(in_progress_status)],
-          ['Done',      parseInt(done_status)],
-          
-        ]);
-
-        var options = {
-          title: 'Project Todos Activities'
-        };
-        proj_id = "#{project.id}"
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_'+proj_id));
-
-        chart.draw(data, options);
-      }
-
-
-
-:css
-  .header_color{background-color:#C0C0C0 !important; font-color:white !important;}

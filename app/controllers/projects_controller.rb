@@ -2,6 +2,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def index
+    @project = Project.find_by_id(params[:project_id]) if params[:project_id].present?
     @projects = current_user.projects
   end
 
