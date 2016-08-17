@@ -10,7 +10,7 @@
     #myNavbar.collapse.navbar-collapse
       - if current_user
         %ul.nav.navbar-nav
-          %li{class: "#{params[:controller] == 'dashboards' ? 'active' : '' }" }
+          %li{class: "#{params[:controller] == 'dashboards' and not params[:project_id].present? ? 'active' : '' }" }
             = link_to "Home", root_path
           %li{class: "#{params[:controller] == 'projects' and params[:action] == "index" ? 'active' : '' }" }
             =link_to 'Projects', projects_path
@@ -21,6 +21,8 @@
               = link_to "Todos", [@project, Todo]
             %li{class: "#{params[:controller] == 'assign_projects' ? 'active' : '' }" }
               = link_to "Assign Project", [@project, AssignProject]
+          %li{class: "#{params[:controller] == 'dashboards' and params[:project_id].present? ? 'active' : '' }" }
+            = link_to "Project Activity Graph(pi-chart)", root_path(project_id: 0)
         %ul.nav.navbar-nav.navbar-right
           %li
             %a.navbar-brand{:href => "#"}

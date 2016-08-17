@@ -4,72 +4,73 @@
   .col-md-4
   .col-md-4
 
-.col-md-12
-  .container-fluid.bg-3.text-center
-    - todos_status = Todo.aasm.events.map{|eve| eve.name.to_s} + ["new"]
-    - @projects.each do |proj, value|
-      - project = Project.find(proj.split('_')[1])
-      .row.proj_header
-        = link_to project do 
-          %h5= project.name
-      %br/
-      - c = 0
-      - todos_status.each_with_index do |status, index|
-        .row
-          .col-sm-3
-            .col-sm-12{class: "#{(index == 0 ? 'well well-sm' : '')}"}
-              %p= (index == 0 ? 'Status' : '')
-            .col-sm-12
-              %p= status.titleize
-          .col-sm-9#list_lines
-            - (value["status"] - [current_user.email]).each do |user_name|
-              - if project.assign_projects.where(status: CREATED).first.user.email != user_name
-                - c +=1
-                .col-sm-3.inr_list_lines.data_container
-                  .col-sm-12{class: (value["status"].length > c ? 'well well-sm' : 'well well-sm')}
-                    %p= user_name #(value["status"].length > c ? user_name : '')
-                  .col-sm-12
-                    - data = value.except("status")[status]
-                    - if data.present? and data[user_name].present?
-                      .col-sm-12
-                        - data[user_name].each do |todo|
-                          %p= todo.description
-                    - else
-                      .col-sm-12
-                        %p 
-                  - if c%3 == 0
-                    .col-sm-3.inr_list_lines
-                      .col-sm-12
-                        %p 
-                    %br/
-              - else
-                
-
-.col-md-12
-  .container-fluid.bg-3.text-center
-    .row.proj_header
-      %h5 Project Activity
-    .row
-      .col-md-12
-        - projects = []
-        - @projects.each do |proj, value|
-          - projects << Project.find(proj.split('_')[1])
+- if not params[:project_id].present?
+  .col-md-12
+    .container-fluid.bg-3.text-center
+      - todos_status = Todo.aasm.events.map{|eve| eve.name.to_s} + ["new"]
+      - @projects.each do |proj, value|
+        - project = Project.find(proj.split('_')[1])
+        .row.proj_header
+          = link_to project do 
+            %h5= project.name
         %br/
-        .col-md-4
-        .col-md-4
-          = select(:project, :id, ["Select Project"]+projects.collect{|p| [p.name, p.id]},{selected: (@project.id rescue nil)}, class: "form-control sel_proj")
-        .col-md-4
-      .col-md-12.pichart_proj
-        - if @project
-          = render partial: 'projects/pichart'
-        - else
+        - c = 0
+        - todos_status.each_with_index do |status, index|
+          .row
+            .col-sm-3
+              .col-sm-12{class: "#{(index == 0 ? 'well well-sm' : '')}"}
+                %p= (index == 0 ? 'Status' : '')
+              .col-sm-12
+                %p= status.titleize
+            .col-sm-9#list_lines
+              - (value["status"] - [current_user.email]).each do |user_name|
+                - if project.assign_projects.where(status: CREATED).first.user.email != user_name
+                  - c +=1
+                  .col-sm-3.inr_list_lines.data_container
+                    .col-sm-12{class: (value["status"].length > c ? 'well well-sm' : 'well well-sm')}
+                      %p= user_name #(value["status"].length > c ? user_name : '')
+                    .col-sm-12
+                      - data = value.except("status")[status]
+                      - if data.present? and data[user_name].present?
+                        .col-sm-12
+                          - data[user_name].each do |todo|
+                            %p= todo.description
+                      - else
+                        .col-sm-12
+                          %p 
+                    - if c%3 == 0
+                      .col-sm-3.inr_list_lines
+                        .col-sm-12
+                          %p 
+                      %br/
+                - else
+                  
+- else
+  .col-md-12
+    .container-fluid.bg-3.text-center
+      .row.proj_header
+        %h5 Project Activity
+      .row
+        .col-md-12
+          / - projects = []
+          / - @projects.each do |proj, value|
+          /   - projects << Project.find(proj.split('_')[1])
+          / %br/
           .col-md-4
           .col-md-4
-            No Activity Found
+            = select(:project, :id, ["Select Project"]+@projects.collect{|p| [p.name, p.id]},{selected: (@project.id rescue nil)}, class: "form-control sel_proj")
+          .col-md-4
+        .col-md-12.pichart_proj
+          - if @project
+            = render partial: 'projects/pichart'
+          - else
+            .col-md-4
+            .col-md-4
+              No Activity Found
 
-:javascript
-  $(document).on('change', '.sel_proj', function(){
-    val = $(this).val();
-    window.location = '/?project_id='+ val;
-  })
+  :javascript
+    $(document).on('change', '.sel_proj', function(){
+      val = $(this).val();
+      window.location = '/?project_id='+ val;
+    })
 
