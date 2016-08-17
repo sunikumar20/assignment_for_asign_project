@@ -58,7 +58,8 @@
           / %br/
           .col-md-4
           .col-md-4
-            = select(:project, :id, ["Select Project"]+@projects.collect{|p| [p.name, p.id]},{selected: (@project.id rescue nil)}, class: "form-control sel_proj")
+            .row
+              = select(:project, :id, ["Select Project"]+@projects.collect{|p| [p.name, p.id]},{selected: (@project.id rescue nil)}, class: "form-control sel_proj")
           .col-md-4
         .col-md-12.pichart_proj
           - if @project

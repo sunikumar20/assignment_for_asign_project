@@ -18,7 +18,11 @@ class DashboardsController < ApplicationController
       end
       @projects = projects
     else
-      @project = Project.find_by_id(params[:project_id])
+      if params[:project_id] == 0
+        @project = @projects.first
+      else
+        @project = Project.find_by_id(params[:project_id])
+      end
     end
    
   end
